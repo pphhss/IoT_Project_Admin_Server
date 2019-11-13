@@ -34,10 +34,8 @@
             </ul>
         </div>
         <div class="mx-auto order-0">
-            <a class="navbar-brand mx-auto" href="#">Navbar 2</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a class="navbar-brand mx-auto" href="#" id="roominfo-room-name">Navbar 2</a>
+            
         </div>
         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
             
@@ -187,6 +185,7 @@
     <script>
         var rn = new URL(window.location.href).searchParams.get("rn");
         console.log(rn);
+        $('#roominfo-room-name').html(rn);
     </script>
 </body>
 
