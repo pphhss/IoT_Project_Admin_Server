@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>좌석정보</title>
+    <title>열람실 좌석 정보</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -25,6 +25,24 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" onclick="history.back();">뒤로가기</a>
+                </li>
+            </ul>
+        </div>
+        <div class="mx-auto order-0">
+            <a class="navbar-brand mx-auto" href="#">Navbar 2</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            
+        </div>
+    </nav>
     <div class="row">
         <table class="">
             <tbody>
@@ -166,7 +184,10 @@
             </div>
         </div>
     </div>
-
+    <script>
+        var rn = new URL(window.location.href).searchParams.get("rn");
+        console.log(rn);
+    </script>
 </body>
 
 </html>

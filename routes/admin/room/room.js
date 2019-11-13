@@ -1,11 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-var seat = require('./seat/seat');
-var room = require('./room/room');
+var page = require('./page');
 
 /* GET home page. */
-router.use('/room',room);
+router.use(page);
 
 
 module.exports = router;
