@@ -32,5 +32,21 @@ module.exports = {
         poolAdapter.execute(select + where, [_data.idx], function (_results) {
             _callback(_results[0]);
         });
+    },
+    getRoomInfo: function (_data, _callback) {
+        var select =
+            "\
+        SELECT total_sheet.idx, total_sheet.sheet_number, cur_sheet.student_number \
+        FROM \
+            (SELECT * FROM sheet WHERE sheet.room_idx=?) AS total_sheet \
+        LEFT JOIN \
+            (SELECT * FROM sheet_use AS su \
+                WHERE su.sheet_idx IN (SELECT idx FROM sheet WHERE room_idx=?)) AS cur_sheet \
+        ON total_sheet.idx = cur_sheet.sheet_idx \
+        ";
+
+        poolAdapter.execute(select, [_data.idx, _data.idx], function (_results) {
+            _callback(_results);
+        });
     }
 }
