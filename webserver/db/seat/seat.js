@@ -7,7 +7,7 @@ db.isReserve = function (_data, _callback) {
     var select = "SELECT * FROM sheet_use WHERE student_number=? AND start_time IS NOT NULL AND end_time IS NULL";
 
     poolAdapter.execute(select, _data, function (_results) {
-        _callback(_results.length > 0);
+        _callback(_results.length > 0, (_results.length > 0) ? _results[0].idx : null);
     });
 };
 
@@ -43,5 +43,13 @@ db.reserve = function (_data, _callback) {
     });
 };
 
+db.return = function (_data, _callback) {
+    var update = "UPDATE sheet_use SET end_time=? "
+    var where = "WHERE student_number=? AND start_time IS NOT NULL AND end_time IS NULL";
+    var cur_time = require('../../utils/date')();
+    poolAdapter.execute(update + where, [cur_time, _data], function (_results) {
+        _callback();
+    });
+}
 
 module.exports = db;

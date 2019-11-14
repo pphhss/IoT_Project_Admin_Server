@@ -30,7 +30,14 @@
     <div class="row mt-5">
         <div class="col"></div>
         <div class="col">
-            <button type="button" class="btn btn-success" id="roomlist_reserve"  data-toggle="modal" data-target="#modal_reserve">좌석 예약</button>
+            <div class="row mt-3">
+                <button type="button" class="btn btn-success" id="roomlist_reserve" data-toggle="modal"
+                    data-target="#modal_reserve">좌석 예약</button>
+            </div>
+            <div class="row mt-3">
+                <button type="button" class="btn btn-danger" id="roomlist_return" data-toggle="modal"
+                    data-target="#modal_return">좌석 반납</button>
+            </div>
         </div>
         <div class="col"></div>
     </div>
@@ -44,6 +51,7 @@
     </div>
 
     <% include ./modal_reserve %>
+    <% include ./modal_return %>
     <script>
 
         function setRoomList() {
