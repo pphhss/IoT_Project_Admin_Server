@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
@@ -33,26 +31,49 @@
                         <th scope="col">좌석현황</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="room-row-room">
-                        <th scope="row" class="room-row-name">C1</th>
-                        <td>45 / 56</td>
-                    </tr>
-                    <tr class="room-row-room">
-                        <th scope="row" class="room-row-name">D1</th>
-                        <td>10 / 23</td>
-                    </tr>
+                <tbody id="room_table_body">
+
                 </tbody>
             </table>
         </div>
         <div class="col">
-
         </div>
     </div>
+
+    <div style="display:none;">
+        <table>
+            <tr class="room-row-room" id="room_room_clone">
+                <th scope="row" class="room-row-name">D1</th>
+                <td><span class="room-row-cur-number"></span> / <span class="room-row-total-number"></span></td>
+            </tr>
+        </table>
+    </div>
     <script>
-        $('.room-row-room').click(function () {
-            location.href = "/room/roomInfo?rn=" + $(this).children('.room-row-name')[0].innerHTML;
+        var rowClickEvent = function () {
+
+        }
+        $(document).ready(function () {
+            $.ajax({
+                method: "POST",
+                url: "/room/json/getRoomList",
+                data: {}
+            })
+                .done(function (_results) {
+                    var tbody = $('#room_table_body');
+
+                    for (var i = 0; i < _results.length; i++) {
+                        var room = _results[i];
+                        var clone = $('#room_room_clone').clone();
+                        clone.find('.room-row-name').html(room.room_name);
+                        clone.attr('id', 'room_room_' + room.idx);
+                        tbody.append(clone);
+                    }
+                    $('.room-row-room').click(function () {
+                        location.href = "/room/roomInfo?rn=" + $(this).children('.room-row-name')[0].innerHTML;
+                    });
+                });
         });
+
     </script>
 </body>
 
