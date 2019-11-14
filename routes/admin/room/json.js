@@ -10,4 +10,10 @@ router.post('/getRoomList', function (_req, _res) {
     })
 });
 
+router.post('/getRoomNumber', function (_req, _res) {
+    room.getRoomNumber(_req.body, function (_result) {
+        _res.send(_result);
+    });
+});
+
 module.exports = router;
