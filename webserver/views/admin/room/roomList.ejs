@@ -56,7 +56,8 @@
                         tbody.append(clone);
                     }
                     $('.room-row-room').click(function () {
-                        location.href = "/room/roomInfo?rn=" + $(this).children('.room-row-name')[0].innerHTML;
+                        var id = $(this).attr('id').split('room_room_')[1];
+                        location.href = "/room/roomInfo?rn=" + id;
                     });
                 });
         });

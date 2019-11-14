@@ -20,5 +20,17 @@ module.exports = {
         poolAdapter.execute(select, function (_results) {
             _callback(_results);
         });
+    },
+    getRoomName: function (_data, _callback) {
+        var select =
+            "\
+            SELECT * \
+            FROM room \
+            ";
+        var where = "WHERE idx=?";
+
+        poolAdapter.execute(select + where, [_data.idx], function (_results) {
+            _callback(_results[0]);
+        });
     }
 }

@@ -10,4 +10,14 @@ describe('room', function () {
             })
         });
     });
+    describe.only('getRoomInfo', function () {
+        it('should get room info', function (done) {
+            room.getRoomName({
+                idx: 1
+            }, function (_results) {
+                console.log(_results);
+                done();
+            });
+        });
+    });
 });
