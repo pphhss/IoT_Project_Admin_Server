@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-var page = require('./page');
+var action = require('./action');
 
 /* GET home page. */
-router.use(page);
+router.use('/action',action);
 
 
 module.exports = router;
