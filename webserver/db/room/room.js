@@ -41,7 +41,7 @@ module.exports = {
             (SELECT * FROM sheet WHERE sheet.room_idx=?) AS total_sheet \
         LEFT JOIN \
             (SELECT * FROM sheet_use AS su \
-                WHERE su.sheet_idx IN (SELECT idx FROM sheet WHERE room_idx=?)) AS cur_sheet \
+                WHERE su.sheet_idx IN (SELECT idx FROM sheet WHERE room_idx=?) AND su.start_time IS NOT NULL AND su.end_time IS NULL) AS cur_sheet \
         ON total_sheet.idx = cur_sheet.sheet_idx \
         ";
 
