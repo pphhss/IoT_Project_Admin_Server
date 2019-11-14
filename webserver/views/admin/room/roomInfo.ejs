@@ -22,7 +22,7 @@
             </ul>
         </div>
         <div class="mx-auto order-0">
-            <a class="navbar-brand mx-auto" href="#" id="roominfo-room-name">Navbar 2</a>
+            <a class="navbar-brand mx-auto" href="#" id="roominfo-room-name"></a>
 
         </div>
         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
@@ -31,125 +31,8 @@
     </nav>
     <div class="row">
         <table class="">
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="card text-white bg-primary mb-3 seat-seat">
-                            <div class="card-header">201320965</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음 5</h5>
-                                <h5 class="card-title">이용률 50%</h5>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="card bg-light mb-3 seat-seat">
-                            <div class="card-header">빈자리</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음</h5>
-                                <h5 class="card-title">이용률</h5>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="card bg-light mb-3 seat-seat">
-                            <div class="card-header">빈자리</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음</h5>
-                                <h5 class="card-title">이용률</h5>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="seat-seat"></div>
-                    </td>
-                    <td>
-                        <div class="card bg-light mb-3 seat-seat">
-                            <div class="card-header">빈자리</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음</h5>
-                                <h5 class="card-title">이용률</h5>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="card bg-light mb-3 seat-seat">
-                            <div class="card-header">빈자리</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음</h5>
-                                <h5 class="card-title">이용률</h5>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="card bg-light mb-3 seat-seat">
-                            <div class="card-header">빈자리</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음</h5>
-                                <h5 class="card-title">이용률</h5>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="card text-white bg-primary mb-3 seat-seat">
-                            <div class="card-header">201320965</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음 5</h5>
-                                <h5 class="card-title">이용률 50%</h5>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="card bg-light mb-3 seat-seat">
-                            <div class="card-header">빈자리</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음</h5>
-                                <h5 class="card-title">이용률</h5>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="card bg-light mb-3 seat-seat">
-                            <div class="card-header">빈자리</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음</h5>
-                                <h5 class="card-title">이용률</h5>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="seat-seat"></div>
-                    </td>
-                    <td>
-                        <div class="card bg-light mb-3 seat-seat">
-                            <div class="card-header">빈자리</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음</h5>
-                                <h5 class="card-title">이용률</h5>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="card bg-light mb-3 seat-seat">
-                            <div class="card-header">빈자리</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음</h5>
-                                <h5 class="card-title">이용률</h5>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="card bg-light mb-3 seat-seat">
-                            <div class="card-header">빈자리</div>
-                            <div class="card-body">
-                                <h5 class="card-title">소음</h5>
-                                <h5 class="card-title">이용률</h5>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+            <tbody id="roominfo_tbody">
+
             </tbody>
         </table>
     </div>
@@ -170,10 +53,88 @@
             </div>
         </div>
     </div>
+
+    <div style="display: none;">
+        <div id="roominfo_seat_used" class="card text-white bg-primary mb-3 seat-seat">
+            <div class="card-header row">
+                <div class="col-3 roominfo-seatnumber">
+                    1
+                </div>
+                <div class="col-9 roominfo-seat-sn">
+                    201320965
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">소음 5</h5>
+                <h5 class="card-title">이용률 50%</h5>
+            </div>
+        </div>
+
+        <div class="card bg-light mb-3 seat-seat" id="roominfo_seat_not_used">
+            <div class="card-header row">
+                <div class="col-3 roominfo-seatnumber">
+                    1
+                </div>
+                <div class="col-9">
+                    빈자리
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">소음</h5>
+                <h5 class="card-title">이용률</h5>
+            </div>
+        </div>
+    </div>
+
     <script>
-        var rn = new URL(window.location.href).searchParams.get("rn");
-        console.log(rn);
-        $('#roominfo-room-name').html(rn);
+        var mIdx = new URL(window.location.href).searchParams.get("rn");
+        function setRoomName() {
+            $.ajax({
+                url: "/room/json/getRoomName",
+                method: "post",
+                data: { idx: mIdx }
+            }).done(function (_data) {
+                $('#roominfo-room-name').html(_data);
+            });
+        }
+
+        function setSeatInfo() {
+            $.ajax({
+                url: "/room/json/getRoomInfo",
+                method: "post",
+                data: { idx: mIdx }
+            }).done(function (_data) {
+                var tr = $('<tr></tr>');
+                for (var i = 0; i < _data.length; i++) {
+                    var td = $('<td></td>');
+                    var seat = _data[i];
+
+                    var isUsed = seat.student_number != null; // 사용되는 좌석인지 아닌지.
+
+                    var clone = isUsed ? $('#roominfo_seat_used').clone() : $('#roominfo_seat_not_used').clone();
+
+                    clone.attr('id', 'roominfo_seat_' + seat.idx);
+                    clone.find('.roominfo-seatnumber').html(seat.sheet_number);
+
+                    if (isUsed) {
+                        clone.find('.roominfo-seat-sn').html(seat.student_number);
+                    }
+                    td.append(clone);
+                    tr.append(td);
+
+                    if (i % 5 == 4) { // 한줄이 다차면.
+                        $('#roominfo_tbody').append(tr);
+                        tr = $('<tr></tr>')
+                    }
+                }
+                $('#roominfo_tbody').append(tr);
+            });
+        }
+
+        $(document).ready(function () {
+            setRoomName();
+            setSeatInfo();
+        });
     </script>
 </body>
 
