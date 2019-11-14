@@ -5,11 +5,5 @@ module.exports = {
         room.getRoomList(_data, function (_results) {
             _callback(_results);
         });
-    },
-
-    getRoomNumber: function (_data, _callback) {
-        room.getRoomNumber(_data, function (_results) {
-            _callback(_results);
-        });
     }
 };
