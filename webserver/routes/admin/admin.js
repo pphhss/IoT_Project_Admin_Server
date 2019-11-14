@@ -6,6 +6,6 @@ var room = require('./room/room');
 
 /* GET home page. */
 router.use('/room',room);
-
+router.use('/seat',seat);
 
 module.exports = router;

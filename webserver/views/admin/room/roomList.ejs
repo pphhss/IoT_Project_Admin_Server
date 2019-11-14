@@ -27,7 +27,13 @@
         <div class="col">
         </div>
     </div>
-
+    <div class="row mt-5">
+        <div class="col"></div>
+        <div class="col">
+            <button type="button" class="btn btn-success" id="roomlist_reserve"  data-toggle="modal" data-target="#modal_reserve">좌석 예약</button>
+        </div>
+        <div class="col"></div>
+    </div>
     <div style="display:none;">
         <table>
             <tr class="room-row-room" id="room_room_clone">
@@ -36,8 +42,11 @@
             </tr>
         </table>
     </div>
+
+    <% include ./modal_reserve %>
     <script>
-        $(document).ready(function () {
+
+        function setRoomList() {
             $.ajax({
                 method: "POST",
                 url: "/room/json/getRoomList",
@@ -54,12 +63,18 @@
                         clone.find('.room-row-cur-number').html((room.cur_number == null) ? 0 : room.cur_number);
                         clone.find('.room-row-total-number').html((room.total_number == null) ? 0 : room.total_number);
                         tbody.append(clone);
+                        console.log(room);
+                        addReserveInit(room);
                     }
                     $('.room-row-room').click(function () {
                         var id = $(this).attr('id').split('room_room_')[1];
                         location.href = "/room/roomInfo?rn=" + id;
                     });
                 });
+        }
+
+        $(document).ready(function () {
+            setRoomList();
         });
 
     </script>
