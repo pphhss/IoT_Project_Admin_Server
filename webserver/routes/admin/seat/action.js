@@ -9,4 +9,9 @@ router.post('/reserve', function (_req, _res) {
     });
 });
 
+router.post('/return', function (_req, _res) {
+    seat.return(_req.body, function (_result) {
+        _res.send(_result);
+    });
+});
 module.exports = router;

@@ -23,5 +23,15 @@ module.exports = {
                 });
             }
         });
+    },
+    return: function (_data, _callback) {
+        seat.isReserve([_data.sn], function (_isReserve, _sheet_use_idx) {
+            if (_isReserve)
+                seat.return(_data.sn, function () {
+                    _callback({ result: config.code.RESERVE_OK });
+                });
+            else
+                _callback({ result: config.code.ALREADY_RESERVE });
+        });
     }
 };

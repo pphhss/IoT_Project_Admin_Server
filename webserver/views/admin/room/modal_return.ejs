@@ -1,0 +1,57 @@
+<!-- Modal -->
+<div class="modal fade" id="modal_return" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">좌석 반납</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">학번</label>
+                        <input type="text" class="form-control" id="modal_return_student_number"
+                            aria-describedby="emailHelp" placeholder="학번을 입력해주세요">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" id="modal_return_return">반납</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#modal_return_return').on('click', function () {
+        var data = {
+            sn: $('#modal_return_student_number').val(),
+        }
+
+        if (data.sn == "") {
+            alert("학번을 입력해주세요");
+            $('#modal_reserve_student_number').focus();
+            return;
+        }
+        $.ajax(
+            {
+                url: "/seat/action/return",
+                method: "post",
+                data: data
+            },
+        ).done(function (_data) {
+            switch (_data.result) {
+                case 400:
+                    alert("예약된 좌석이 없습니다.");
+                    break;
+                case 200:
+                    location.reload();
+                    break;
+            }
+        });
+    });
+</script>

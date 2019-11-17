@@ -1,7 +1,7 @@
 var assert = require('assert');
 var seat = require('../model/seat');
 describe('seat', function () {
-    describe.only('reserve', function () {
+    describe('reserve', function () {
         it('should reserver', function (done) {
             seat.reserve({
                 sn: 201320966,
@@ -14,4 +14,14 @@ describe('seat', function () {
         });
     });
 
+    describe('return', function () {
+        it('should return', function (done) {
+            seat.return({
+                sn: 201320966
+            }, function (_result) {
+                console.log(_result);
+                done();
+            })
+        });
+    });
 });
