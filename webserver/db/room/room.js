@@ -4,7 +4,7 @@ module.exports = {
     getRoomList: function (_data, _callback) {
         var select =
             "SELECT room.idx,room.room_name, numbering.cur_number, numbering.total_number FROM \
-                (SELECT cur.room_idx, cur.cur_number, total.total_number \
+                (SELECT total.room_idx, cur.cur_number, total.total_number \
                 FROM \
                     (SELECT room_idx, count(room_idx) AS cur_number \
                         FROM(SELECT sheet_idx FROM sheet_use WHERE start_time IS NOT NULL AND end_time IS NULL) AS cur_sheet \
