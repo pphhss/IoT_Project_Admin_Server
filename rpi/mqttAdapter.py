@@ -1,21 +1,32 @@
 import mqtt
 import config
+import threading
 
 
 class MQTTAdapter():
-    def __init__(self, _messageCallback):
+    def __init__(self):
         self.mqtt = mqtt.MQTT()
-        self.__messageCallback = _messageCallback
         self.__init()
 
     def __init(self):
-        def __callback(_dict):
-            # type : true/false // idx : integer
-            self.__onMessage(_dict['type'], _dict['idx'])
-        self.mqtt.subscribe(config.MQTT['topic_device'], 1, __callback)
+        self.__thread_condition = threading.Condition()
 
-    def __onMessage(self, _type, _idx):
-        self.__messageCallback(_type, _idx)
+        t = threading.Thread(target=self.__subscribe)
+        t.start()
+
+    def getMessage(self):
+        with self.__thread_condition:
+            self.__thread_condition.wait()
+        return self.__dict['type'], self.__dict['data']
+
+    def __subscribeCallback(self, _dict):
+        self.__dict = _dict
+        with self.__thread_condition:
+            self.__thread_condition.notify()
+
+    def __subscribe(self):
+        self.mqtt.subscribe(
+            config.MQTT['topic_device'], 1, self.__subscribeCallback)
 
     def close(self):
         self.mqtt.disconnect()
@@ -37,9 +48,11 @@ if __name__ == "__main__":
     ma.close()
     '''
 
-    def testCallback(_type, _idx):
-        print("type : "+str(_type)+" idx : "+str(_idx))
-    ma = MQTTAdapter(testCallback)
-
-    ma.sendData(10, 51, 50)
+    ma = MQTTAdapter()
+    _type, _data = ma.getMessage()
+    print(str(_type)+" / "+str(_data))
+    _type, _data = ma.getMessage()
+    print(str(_type)+" / "+str(_data))
+    _type, _data = ma.getMessage()
+    print(str(_type)+" / "+str(_data))
     ma.close()
