@@ -7,7 +7,8 @@ db.isReserve = function (_data, _callback) {
     var select = "SELECT * FROM sheet_use WHERE student_number=? AND start_time IS NOT NULL AND end_time IS NULL";
 
     poolAdapter.execute(select, _data, function (_results) {
-        _callback(_results.length > 0, (_results.length > 0) ? _results[0].idx : null);
+        var isReserve = (_results.length > 0);
+        _callback(isReserve, isReserve ? _results[0].idx : null, isReserve ? _results[0].sheet_idx : null);
     });
 };
 

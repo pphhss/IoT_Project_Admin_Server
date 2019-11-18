@@ -1,5 +1,14 @@
 var seat = require('../db/seat/seat');
 var config = require('../config');
+var device = require('../utils/device');
+
+function publish_reserve(_seat_idx, _sheet_use_idx) {
+    device.publish(config.publish.DEVICE_TOPIC + _seat_idx, { "type": config.publish.types.RESERVE, "data": _sheet_use_idx })
+}
+
+function publish_return(_sheet_idx) {
+    device.publish(config.publish.DEVICE_TOPIC + _sheet_idx, { "type": config.publish.types.RETURN, "data": 0 })
+}
 
 module.exports = {
     reserve: function (_data, _callback) {
@@ -12,7 +21,8 @@ module.exports = {
                     if (_seat_idx) {
                         seat.isAvailableSeat([_seat_idx], function (_isAvailable) { // 그 좌석이 이용이 가능한지.
                             if (_isAvailable)
-                                seat.reserve([_data.sn, _seat_idx], function () { // 예약
+                                seat.reserve([_data.sn, _seat_idx], function (_sheet_use_idx) { // 예약
+                                    publish_reserve(_seat_idx, _sheet_use_idx)
                                     _callback({ result: config.code.RESERVE_OK });
                                 });
                             else
@@ -25,9 +35,10 @@ module.exports = {
         });
     },
     return: function (_data, _callback) {
-        seat.isReserve([_data.sn], function (_isReserve, _sheet_use_idx) {
+        seat.isReserve([_data.sn], function (_isReserve, _sheet_use_idx, _sheet_idx) {
             if (_isReserve)
                 seat.return(_data.sn, function () {
+                    publish_return(_sheet_idx);
                     _callback({ result: config.code.RESERVE_OK });
                 });
             else
