@@ -4,9 +4,9 @@ import json
 from AWSIoTPythonSDK.MQTTLib import *
 
 host = 'apn185odp8mdk-ats.iot.ap-northeast-2.amazonaws.com'
-rootCAPath = '/home/pi/Desktop/certificate/RootCA.crt'
-certificatePath = '/home/pi/Desktop/certificate/c118d1f7e0-certificate.pem.crt'
-privateKeyPath = '/home/pi/Desktop/certificate/c118d1f7e0-private.pem.key'
+rootCAPath = './certs/RootCA.crt'
+certificatePath = './certs/c118d1f7e0-certificate.pem.crt'
+privateKeyPath = './certs/c118d1f7e0-private.pem.key'
 port = 8883
 clientId = 'IoT_Device_2'
 topic = 'iot/topic'
@@ -30,7 +30,7 @@ message = {"sheet_use" : 1, "power" : 10, "sound" : 10}
 messageJson = json.dumps(message)
 myAWSIoTMQTTClient.publish(topic, messageJson, 1)
 '''
-message = {"sheet_use_idx" : 1, "power" : 18, "sound" : 18}
+message = {"sheet_use_idx" : 10, "power" : 18, "sound" : 18}
 messageJson = json.dumps(message)
 
 myMQTTClient = AWSIoTMQTTClient(clientId)
@@ -42,5 +42,5 @@ myMQTTClient.configureConnectDisconnectTimeout(10)
 myMQTTClient.configureMQTTOperationTimeout(5)
 myMQTTClient.connect()
 myMQTTClient.publish(topic, messageJson, 1)
-myMQTTClient.subscribe(topic_Web_pub, 1, customCallback)
+#myMQTTClient.subscribe(topic_Web_pub, 1, customCallback)
 myMQTTClient.disconnect()
