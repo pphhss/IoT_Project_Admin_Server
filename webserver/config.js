@@ -16,5 +16,12 @@ module.exports = {
     awsIOT: {
         clientId: "WebServer",
         host: "apn185odp8mdk-ats.iot.ap-northeast-2.amazonaws.com"
+    },
+    publish: {
+        DEVICE_TOPIC: "iot/device_",
+        types: {
+            RESERVE: 0,
+            RETURN: 1
+        },
     }
 }

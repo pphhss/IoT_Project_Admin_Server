@@ -17,8 +17,9 @@ var device = awsIot.device({
 
 module.exports = {
     publish: function (_topic, _message, _callback) {
-        device.publish(_topic, _message, function () {
-            _callback();
+        device.publish(_topic, JSON.stringify(_message), function () {
+            if (typeof _callback == 'function')
+                _callback();
         });
     }
 }
