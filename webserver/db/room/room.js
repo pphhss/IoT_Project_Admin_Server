@@ -36,16 +36,24 @@ module.exports = {
     getRoomInfo: function (_data, _callback) {
         var select =
             "\
-        SELECT total_sheet.idx, total_sheet.sheet_number, cur_sheet.student_number \
-        FROM \
-            (SELECT * FROM sheet WHERE sheet.room_idx=?) AS total_sheet \
+        SELECT * FROM \
+            (SELECT total_sheet.idx, total_sheet.sheet_number, cur_sheet.student_number, cur_sheet.idx AS sheet_use_idx \
+            FROM \
+                (SELECT * FROM sheet WHERE sheet.room_idx=?) AS total_sheet \
+            LEFT JOIN \
+                (SELECT * FROM sheet_use AS su \
+                    WHERE su.sheet_idx IN (SELECT idx FROM sheet WHERE room_idx=?) AND su.start_time IS NOT NULL AND su.end_time IS NULL) AS cur_sheet \
+            ON total_sheet.idx = cur_sheet.sheet_idx) AS sheet_info \
         LEFT JOIN \
-            (SELECT * FROM sheet_use AS su \
-                WHERE su.sheet_idx IN (SELECT idx FROM sheet WHERE room_idx=?) AND su.start_time IS NOT NULL AND su.end_time IS NULL) AS cur_sheet \
-        ON total_sheet.idx = cur_sheet.sheet_idx \
+                (SELECT sl.sheet_use_idx ,AVG(sl.use_sheet) AS avg_use_sheet, AVG(sl.sound) AS avg_sound FROM sheet_log AS sl \
+            INNER JOIN  \
+                (SELECT * FROM sheet_use AS su \
+                        WHERE su.sheet_idx IN (SELECT idx FROM sheet WHERE room_idx=?) AND su.start_time IS NOT NULL AND su.end_time IS NULL) AS cur_sheet\
+            ON sl.sheet_use_idx = cur_sheet.idx GROUP BY sl.sheet_use_idx) AS avg_sheet\
+        ON sheet_info.sheet_use_idx = avg_sheet.sheet_use_idx\
         ";
 
-        poolAdapter.execute(select, [_data.idx, _data.idx], function (_results) {
+        poolAdapter.execute(select, [_data.idx, _data.idx,_data.idx], function (_results) {
             _callback(_results);
         });
     }

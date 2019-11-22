@@ -65,8 +65,8 @@
                 </div>
             </div>
             <div class="card-body">
-                <h5 class="card-title">소음 5</h5>
-                <h5 class="card-title">이용률 50%</h5>
+                <h5 class="card-title">소음 <span class="roominfo-seat-sound"></span></h5>
+                <h5 class="card-title">이용률 <span class="roominfo-seat-use"></span>%</h5>
             </div>
         </div>
 
@@ -104,6 +104,7 @@
                 method: "post",
                 data: { idx: mIdx }
             }).done(function (_data) {
+                $('#roominfo_tbody').html("");
                 var tr = $('<tr></tr>');
                 for (var i = 0; i < _data.length; i++) {
                     var td = $('<td></td>');
@@ -118,6 +119,8 @@
 
                     if (isUsed) {
                         clone.find('.roominfo-seat-sn').html(seat.student_number);
+                        clone.find('.roominfo-seat-sound').html(seat.avg_sound);
+                        clone.find('.roominfo-seat-use').html(seat.avg_use_sheet*100);
                     }
                     td.append(clone);
                     tr.append(td);
@@ -134,6 +137,10 @@
         $(document).ready(function () {
             setRoomName();
             setSeatInfo();
+            setInterval(function () {
+                setSeatInfo();
+            }, 5000);
+
         });
     </script>
 </body>
