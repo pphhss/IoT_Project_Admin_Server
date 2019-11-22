@@ -120,7 +120,7 @@
                     if (isUsed) {
                         clone.find('.roominfo-seat-sn').html(seat.student_number);
                         clone.find('.roominfo-seat-sound').html(seat.avg_sound);
-                        clone.find('.roominfo-seat-use').html(seat.avg_use_sheet*100);
+                        clone.find('.roominfo-seat-use').html(Math.floor(seat.avg_use_sheet*100));
                     }
                     td.append(clone);
                     tr.append(td);
