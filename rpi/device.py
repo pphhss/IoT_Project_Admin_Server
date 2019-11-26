@@ -3,6 +3,7 @@ import sensorManager as sm
 import time
 from config import types as TYPES, interval as INTERVAL
 import threading
+import lcd
 
 
 class Device():
@@ -12,6 +13,7 @@ class Device():
     def __init(self):
         self.mqttAdater = ma.MQTTAdapter()
         self.sensormanager = sm.SensorManager()
+        self.lcd = lcd.lcd()
 
         self.isStart = False
         print("DEVICE START")
@@ -22,7 +24,7 @@ class Device():
 
     def __receiving(self):
         def receiving_data_callback(_dict):
-            print(_dict)
+            self.lcd.show(str(_dict['use']+"% / "+str(_dict['sound'])))
         def receiving_data():
             self.mqttAdater.subscribe_receiving(receiving_data_callback)
         t = threading.Thread(target=receiving_data)
