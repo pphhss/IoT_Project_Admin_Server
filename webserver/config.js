@@ -19,9 +19,11 @@ module.exports = {
     },
     publish: {
         DEVICE_TOPIC: "iot/device_",
+        DEVICE_DATA_TOPIC:"iot/device_data_",
         types: {
             RESERVE: 0,
             RETURN: 1
         },
+        PUBLISH_SEAT_INTERVAL: 10000
     }
 }

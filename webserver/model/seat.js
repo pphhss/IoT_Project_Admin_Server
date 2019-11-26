@@ -44,5 +44,15 @@ module.exports = {
             else
                 _callback({ result: config.code.ALREADY_RESERVE });
         });
+    },
+    publish_seat: function () {
+        setInterval(function () {
+            seat.getAllSeat(function (_results) {
+                for (var i = 0; i < _results.length; i++) {
+                    var seat_data = _results[i]
+                    device.publish(config.publish.DEVICE_DATA_TOPIC+seat_data.sheet_idx, seat_data, function () { });
+                }
+            });
+        }, config.publish.PUBLISH_SEAT_INTERVAL)
     }
 };
