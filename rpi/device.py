@@ -16,8 +16,18 @@ class Device():
         self.isStart = False
         print("DEVICE START")
         self.__processing()
+        self.__receiving()
         print("DEVICE PROCESSING..")
         self.__listen()
+
+    def __receiving(self):
+        def receiving_data_callback(_dict):
+            print(_dict)
+        def receiving_data():
+            self.mqttAdater.subscribe_receiving(receiving_data_callback)
+        t = threading.Thread(target=receiving_data)
+        t.start()
+        pass
 
     def __processing(self):
         def sendData():
@@ -26,7 +36,8 @@ class Device():
                 if self.isStart:
                     power, sound = self.sensormanager.getData()
                     self.mqttAdater.sendData(self.sheet_use_idx, power, sound)
-                    print("[SEND DATA] to: "+str(self.sheet_use_idx)+" <"+str(power)+" / "+str(sound)+">")
+                    print("[SEND DATA] to: "+str(self.sheet_use_idx) +
+                          " <"+str(power)+" / "+str(sound)+">")
         t = threading.Thread(target=sendData)
         t.start()
 

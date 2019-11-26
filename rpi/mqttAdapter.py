@@ -27,6 +27,11 @@ class MQTTAdapter():
     def __subscribe(self):
         self.mqtt.subscribe(
             config.MQTT['topic_device'], 1, self.__subscribeCallback)
+    
+    def subscribe_receiving(self,_callback):
+        def subscribe_receiving_callback(_dict):
+            _callback(_dict)
+        self.mqtt.subscribe(config.MQTT['topic_device_data'],1,subscribe_receiving_callback)
 
     def close(self):
         self.mqtt.disconnect()
