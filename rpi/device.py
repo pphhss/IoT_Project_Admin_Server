@@ -55,7 +55,7 @@ class Device():
             elif _type == TYPES["RETURN"]:
                 self.isStart = False
                 print("[RETURN]")
-                self.lcd.clear()
+                self.lcd.show('')
 
 
 if __name__ == "__main__":
