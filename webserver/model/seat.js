@@ -50,7 +50,10 @@ module.exports = {
             seat.getAllSeat(function (_results) {
                 for (var i = 0; i < _results.length; i++) {
                     var seat_data = _results[i]
-                    device.publish(config.publish.DEVICE_DATA_TOPIC+seat_data.sheet_idx, seat_data, function () { });
+                    var data = {}
+                    data.use = (seat_data.avg_use_sheet == null) ? 0 : Math.floor(seat_data.avg_use_sheet * 100)
+                    data.sound = (seat_data.avg_sound == null) ? 0 : Math.floor(seat_data.avg_sound * 100)
+                    device.publish(config.publish.DEVICE_DATA_TOPIC + seat_data.sheet_idx, data, function () { });
                 }
             });
         }, config.publish.PUBLISH_SEAT_INTERVAL)
