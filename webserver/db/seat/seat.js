@@ -53,4 +53,17 @@ db.return = function (_data, _callback) {
     });
 }
 
+db.getAllSeat = function (_callback) {
+    var query = "\
+        SELECT use_sheet.sheet_idx, avg_sheet.* FROM \
+            (SELECT * FROM sheet_use WHERE start_time IS NOT NULL AND end_time IS NULL) AS use_sheet \
+            LEFT JOIN \
+            (SELECT sheet_use_idx, AVG(use_sheet) AS avg_use_sheet, AVG(sound) AS avg_sound FROM sheet_log WHERE sheet_use_idx IN (SELECT idx FROM sheet_use WHERE start_time IS NOT NULL AND end_time IS NULL)) AS avg_sheet \
+            ON use_sheet.idx = avg_sheet.sheet_use_idx\
+    "
+    poolAdapter.execute(query, function (_results) {
+        _callback(_results);
+    });
+}
+
 module.exports = db;
