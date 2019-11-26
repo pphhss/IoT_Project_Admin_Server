@@ -24,7 +24,7 @@ class Device():
 
     def __receiving(self):
         def receiving_data_callback(_dict):
-            self.lcd.show(str(_dict['use']+"% / "+str(_dict['sound'])))
+            self.lcd.show(str(_dict['use'])+"% / "+str(_dict['sound']))
         def receiving_data():
             self.mqttAdater.subscribe_receiving(receiving_data_callback)
         t = threading.Thread(target=receiving_data)
