@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>열람실 통계</title>
+    <% include ../common/commonHeader %>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="mx-auto text-center mb-5">
+            <h1>통계</h1>
+        </div>
+        <div class="card mb-2">
+            <div class="card-header">
+                이용률
+            </div>
+            <div class="card-body">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-success active">
+                        <input type="radio" id="statistics_time_data_options_0" name="statistics_time_data_options"
+                            autocomplete="off" value="0" checked> 날짜
+                    </label>
+                    <label class="btn btn-success">
+                        <input type="radio" id="statistics_time_data_options_1" name="statistics_time_data_options"
+                            value="1" autocomplete="off"> 시간
+                    </label>
+                </div>
+                <canvas id="statistics_time_data"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                소음 평균
+            </div>
+            <div class="card-body">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-success active">
+                        <input type="radio" id="statistics_sound_data_options_0" name="statistics_sound_data_options"
+                            autocomplete="off" value="0" checked> 날짜
+                    </label>
+                    <label class="btn btn-success">
+                        <input type="radio" id="statistics_sound_data_options_1" name="statistics_sound_data_options"
+                            value="1" autocomplete="off"> 시간
+                    </label>
+                </div>
+                <canvas id="statistics_sound_data"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function setSoundData() {
+            $.ajax({
+                url: "/statistics/json/getSoundData",
+                method: "post",
+                data: {
+                    type: Number($(':radio[name="statistics_sound_data_options"]:checked').val())
+                }
+            }).done(function (_data) {
+                var times = [];
+                var avg_sounds = [];
+                for (var i = 0; i < _data.length; i++) {
+                    var data = _data[i];
+                    times.push(data.t);
+                    avg_sounds.push(Math.floor(data.avg_sound * 10) / 10);
+                }
+
+                var ctx = document.getElementById('statistics_sound_data').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+
+                    // The data for our dataset
+                    data: {
+                        labels: times,
+                        datasets: [{
+                            label: '평균 소음',
+                            backgroundColor: 'rgb(255, 255, 255,0)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: avg_sounds
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {}
+                });
+            });
+        }
+        function setTimeData() {
+            $.ajax({
+                url: "/statistics/json/getTimeData",
+                method: "post",
+                data: {
+                    type: Number($(':radio[name="statistics_time_data_options"]:checked').val())
+                }
+            }).done(function (_data) {
+                var datas = [];
+                var times = [];
+                var utilizations = [];
+                var total_use_counts = [];
+                var real_use_counts = [];
+                for (var i = 0; i < _data.length; i++) {
+                    var data = _data[i];
+                    datas.push({
+                        t: data.t,
+                        utilization: Math.floor(data.real_use_count / data.total_use_count * 1000) / 10,
+                        total_use_count: data.total_use_count,
+                        real_use_count: data.real_use_count
+                    })
+                    times.push(datas[i].t);
+                    utilizations.push(datas[i].utilization);
+                    total_use_counts.push(datas[i].total_use_count);
+                    real_use_counts.push(datas[i].real_use_count);
+                }
+
+                var ctx = document.getElementById('statistics_time_data').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+
+                    // The data for our dataset
+                    data: {
+                        labels: times,
+                        datasets: [{
+                            label: '좌석 이용률',
+                            backgroundColor: 'rgb(255, 255, 255,0)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: utilizations
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {}
+                });
+            });
+        }
+
+        function setTimeDataCheckBoxEvent() {
+            $("#statistics_time_data_options_0").change(function () {
+                if ($("#statistics_time_data_options_0").is(":checked")) {
+                    setTimeData();
+                }
+            });
+
+            $("#statistics_time_data_options_1").change(function () {
+                if ($("#statistics_time_data_options_1").is(":checked")) {
+                    setTimeData();
+                }
+            });
+        }
+
+        function setSoundDataCheckBoxEvent() {
+            $("#statistics_sound_data_options_0").change(function () {
+                if ($("#statistics_sound_data_options_0").is(":checked")) {
+                    setSoundData();
+                }
+            });
+
+            $("#statistics_sound_data_options_1").change(function () {
+                if ($("#statistics_sound_data_options_1").is(":checked")) {
+                    setSoundData();
+                }
+            });
+        }
+    </script>
+    <script>
+
+        $(function () {
+            setTimeData();
+            setSoundData()
+            setTimeDataCheckBoxEvent();
+            setSoundDataCheckBoxEvent();
+        });
+    </script>
+</body>
+
+</html>
