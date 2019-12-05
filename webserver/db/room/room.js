@@ -53,8 +53,17 @@ module.exports = {
         ON sheet_info.sheet_use_idx = avg_sheet.sheet_use_idx\
         ";
 
-        poolAdapter.execute(select, [_data.idx, _data.idx,_data.idx], function (_results) {
+        poolAdapter.execute(select, [_data.idx, _data.idx, _data.idx], function (_results) {
             _callback(_results);
+        });
+    },
+    getRoomData: function (_idx, _callback) {
+        var query = "SELECT time AS t, temperature,humidity FROM room_log WHERE room_idx = ? order by t desc limit 1";
+        poolAdapter.execute(query, [_idx], function (_results) {
+            if (_results.length > 0)
+                _callback(_results[0]);
+            else
+                _callback(null);
         });
     }
 }

@@ -15,5 +15,10 @@ module.exports = {
         room.getRoomInfo(_data, function (_results) {
             _callback(_results);
         });
+    },
+    getRoomData: function (_data, _callback) {
+        room.getRoomData(_data.room_idx, function (_results) {
+            _callback(_results);
+        });
     }
 };
