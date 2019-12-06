@@ -46,10 +46,13 @@
         </div>
         <div class="col">
             <div class="row">
-                온도
+                기록 시간 : <span id="roominfo_record_time"></span>
             </div>
             <div class="row">
-                습도
+                온도 : <span id="roominfo_temperature"></span>
+            </div>
+            <div class="row">
+                습도 : <span id="roominfo_humidity"></span>
             </div>
         </div>
     </div>
@@ -120,7 +123,7 @@
                     if (isUsed) {
                         clone.find('.roominfo-seat-sn').html(seat.student_number);
                         clone.find('.roominfo-seat-sound').html(seat.avg_sound);
-                        clone.find('.roominfo-seat-use').html(Math.floor(seat.avg_use_sheet*100));
+                        clone.find('.roominfo-seat-use').html(Math.floor(seat.avg_use_sheet * 100));
                     }
                     td.append(clone);
                     tr.append(td);
@@ -133,12 +136,38 @@
                 $('#roominfo_tbody').append(tr);
             });
         }
+        function formatDate(date) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            var strTime = hours + ':' + minutes + ' ' + ampm;
+            return date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+        }
+
+        function setRoomData() {
+            $.ajax({
+                url: "/room/json/getRoomData",
+                method: "post",
+                data: { room_idx: mIdx }
+            }).done(function (_data) {
+                if (_data.t == null)
+                    return;
+                $('#roominfo_record_time').html(formatDate(new Date(_data.t)));
+                $('#roominfo_humidity').html(_data.humidity);
+                $('#roominfo_temperature').html(_data.temperature);
+            })
+        }
 
         $(document).ready(function () {
             setRoomName();
             setSeatInfo();
+            setRoomData();
             setInterval(function () {
                 setSeatInfo();
+                setRoomData();
             }, 5000);
 
         });

@@ -10,7 +10,7 @@ function publish_return(_sheet_idx) {
     device.publish(config.publish.DEVICE_TOPIC + _sheet_idx, { "type": config.publish.types.RETURN, "data": 0 })
 }
 
-module.exports = {
+var model = {
     reserve: function (_data, _callback) {
         seat.isReserve([_data.sn], function (_isReserve) { // 이미 좌석을 예약중인지
 
@@ -57,5 +57,19 @@ module.exports = {
                 }
             });
         }, config.publish.PUBLISH_SEAT_INTERVAL)
+    },
+    rfid_callback: function (_message) {
+        seat.getSn(_message.rfid_id, function (_sn) {
+            seat.isReserve([_sn], function (_isReserve) {
+                if (_isReserve)
+                    model.return({ sn: _sn }, function () { });
+                else
+                    seat.reserve([_sn, _message.sheet_idx], function (_sheet_use_idx) { // 예약
+                        publish_reserve(_message.sheet_idx, _sheet_use_idx)
+                    });
+            });
+        });
     }
 };
+
+module.exports = model;

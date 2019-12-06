@@ -26,12 +26,13 @@ class MQTTAdapter():
 
     def __subscribe(self):
         self.mqtt.subscribe(
-            config.MQTT['topic_device'], 1, self.__subscribeCallback)
-    
-    def subscribe_receiving(self,_callback):
+            config.MQTT['topic_device'], 0, self.__subscribeCallback)
+
+    def subscribe_receiving(self, _callback):
         def subscribe_receiving_callback(_dict):
             _callback(_dict)
-        self.mqtt.subscribe(config.MQTT['topic_device_data'],1,subscribe_receiving_callback)
+        self.mqtt.subscribe(
+            config.MQTT['topic_device_data'], 0, subscribe_receiving_callback)
 
     def close(self):
         self.mqtt.disconnect()
@@ -39,7 +40,15 @@ class MQTTAdapter():
     def sendData(self, _idx, _power, _sound):
         # 데이터 포맷맞추기 필요.
         self.mqtt.publish(config.MQTT['topic_sheet_log'], {
-                          "sheet_use_idx": _idx, "power": _power, "sound": _sound}, 1)
+                          "sheet_use_idx": _idx, "power": _power, "sound": _sound}, 0)
+
+    def sendRfidData(self, _rfid_id):
+        print({
+            "sheet_idx": config.index, "rfid_id": _rfid_id
+        })
+        self.mqtt.publish(config.MQTT['topic_device_rfid'], {
+            "sheet_idx": config.index, "rfid_id": _rfid_id
+        }, 0)
 
 
 if __name__ == "__main__":

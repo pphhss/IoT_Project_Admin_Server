@@ -21,4 +21,10 @@ router.post('/getRoomInfo', function (_req, _res) {
         _res.send(_result);
     });
 });
+
+router.post('/getRoomData', function (_req, _res) {
+    room.getRoomData(_req.body, function (_result) {
+        _res.send(_result);
+    });
+});
 module.exports = router;

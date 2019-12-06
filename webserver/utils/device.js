@@ -15,11 +15,25 @@ var device = awsIot.device({
     host: config.awsIOT.host
 });
 
+var subscribe_topic_callback_map = {
+    
+}
+
+device
+    .on('message', function (topic, payload) {
+        console.log(topic, JSON.parse(payload.toString()));
+        subscribe_topic_callback_map[topic](JSON.parse(payload.toString()));
+    });
+
 module.exports = {
     publish: function (_topic, _message, _callback) {
         device.publish(_topic, JSON.stringify(_message), function () {
             if (typeof _callback == 'function')
                 _callback();
         });
+    },
+    subscribe: function (_topic, _callback) {
+        device.subscribe(_topic)
+        subscribe_topic_callback_map[_topic] = _callback;
     }
 }

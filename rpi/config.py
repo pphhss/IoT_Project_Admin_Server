@@ -16,4 +16,5 @@ MQTT = {
     "clientId": 'IoT_Device_2',
     'topic_sheet_log': 'iot/topic',
     'topic_device': 'iot/device_'+str(index),
-    'topic_device_data': 'iot/device_data_'+str(index)}
+    'topic_device_data': 'iot/device_data_'+str(index),
+    'topic_device_rfid':'iot/rfid'}

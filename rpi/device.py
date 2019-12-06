@@ -4,6 +4,7 @@ import time
 from config import types as TYPES, interval as INTERVAL
 import threading
 import lcd
+import rfidReader
 
 
 class Device():
@@ -19,8 +20,15 @@ class Device():
         print("DEVICE START")
         self.__processing()
         self.__receiving()
+        self.__rfid_listening()
         print("DEVICE PROCESSING..")
         self.__listen()
+
+    def __rfid_act(self,_rfid_id):
+        self.mqttAdater.sendRfidData(_rfid_id)
+        
+    def __rfid_listening(self):
+        self.__rfid = rfidReader.RFID(self.__rfid_act)
 
     def __receiving(self):
         def receiving_data_callback(_dict):
@@ -29,7 +37,6 @@ class Device():
             self.mqttAdater.subscribe_receiving(receiving_data_callback)
         t = threading.Thread(target=receiving_data)
         t.start()
-        pass
 
     def __processing(self):
         def sendData():
