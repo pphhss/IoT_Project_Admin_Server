@@ -45,6 +45,10 @@ CREATE TABLE room_log(
     FOREIGN KEY(room_idx) REFERENCES room(idx)
 ) COMMENT '열람실 센서 기록 테이블';
 
+CREATE TABLE rfid_student(
+    student_number int(10) not null COMMENT '좌석 사용자 학번',
+    rfid_id bigint not null COMMENT 'RFID id 번호'
+) COMMENT 'RFID 카드-학번 테이블'
 
 INSERT INTO room(room_name) VALUES('C1');
 INSERT INTO room(room_name) VALUES('D1');

@@ -66,4 +66,12 @@ db.getAllSeat = function (_callback) {
     });
 }
 
+db.getSn = function (_rfid_id, _callback) {
+    var query = "SELECT student_number FROM rfid_student WHERE rfid_id=?";
+
+    poolAdapter.execute(query, [_rfid_id], function (_results) {
+        _callback(_results[0].student_number);
+    });
+};
+
 module.exports = db;
