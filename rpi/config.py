@@ -2,6 +2,8 @@ index = 1
 
 interval = 5
 
+seat_power = 40
+
 types = {
     "RESERVE": 0,
     "RETURN": 1
