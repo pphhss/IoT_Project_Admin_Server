@@ -27,6 +27,8 @@ module.exports = {
         PUBLISH_SEAT_INTERVAL: 3000
     },
     subscribe: {
-        RFID_TOPIC : "iot/rfid"
-    }
+        RFID_TOPIC: "iot/rfid"
+    },
+    forcedReturn_cnt: 4,
+    forcedReturn_avg: 0.25
 }
