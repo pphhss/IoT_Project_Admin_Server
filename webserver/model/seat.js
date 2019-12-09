@@ -52,7 +52,7 @@ var model = {
                     var seat_data = _results[i]
                     var data = {}
                     data.use = (seat_data.avg_use_sheet == null) ? 0 : Math.floor(seat_data.avg_use_sheet * 100)
-                    data.sound = (seat_data.avg_sound == null) ? 0 : Math.floor(seat_data.avg_sound * 100)
+                    data.sound = (seat_data.avg_sound == null) ? 0 : Math.floor(seat_data.avg_sound * 100)/100
                     device.publish(config.publish.DEVICE_DATA_TOPIC + seat_data.sheet_idx, data, function () { });
                 }
             });

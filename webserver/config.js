@@ -24,7 +24,7 @@ module.exports = {
             RESERVE: 0,
             RETURN: 1
         },
-        PUBLISH_SEAT_INTERVAL: 10000
+        PUBLISH_SEAT_INTERVAL: 3000
     },
     subscribe: {
         RFID_TOPIC : "iot/rfid"
