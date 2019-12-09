@@ -58,7 +58,7 @@ db.getAllSeat = function (_callback) {
         SELECT use_sheet.sheet_idx, avg_sheet.* FROM \
             (SELECT * FROM sheet_use WHERE start_time IS NOT NULL AND end_time IS NULL) AS use_sheet \
             LEFT JOIN \
-            (SELECT sheet_use_idx, AVG(use_sheet) AS avg_use_sheet, AVG(sound) AS avg_sound FROM sheet_log WHERE sheet_use_idx IN (SELECT idx FROM sheet_use WHERE start_time IS NOT NULL AND end_time IS NULL)) AS avg_sheet \
+            (SELECT sheet_use_idx, AVG(use_sheet) AS avg_use_sheet, AVG(sound) AS avg_sound, COUNT(*) AS cnt FROM sheet_log WHERE sheet_use_idx IN (SELECT idx FROM sheet_use WHERE start_time IS NOT NULL AND end_time IS NULL)) AS avg_sheet \
             ON use_sheet.idx = avg_sheet.sheet_use_idx\
     "
     poolAdapter.execute(query, function (_results) {
@@ -73,5 +73,13 @@ db.getSn = function (_rfid_id, _callback) {
         _callback(_results[0].student_number);
     });
 };
+
+db.getSnFromSheetUseIdx = function (_sheet_use_idx, _callback) {
+    var query = "SELECT student_number FROM sheet_use WHERE idx = ? AND start_time IS NOT NULL AND end_time IS NULL";
+
+    poolAdapter.execute(query, [_sheet_use_idx], function (_results) {
+        _callback(_results[0].student_number);
+    });
+}
 
 module.exports = db;

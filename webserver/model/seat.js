@@ -10,6 +10,16 @@ function publish_return(_sheet_idx) {
     device.publish(config.publish.DEVICE_TOPIC + _sheet_idx, { "type": config.publish.types.RETURN, "data": 0 })
 }
 
+function check_forcedReturn(_seat_data) {
+    if (_seat_data.cnt > config.forcedReturn_cnt && _seat_data.avg_use_sheet < config.forcedReturn_avg) {
+        seat.getSnFromSheetUseIdx(_seat_data.sheet_use_idx, function (_sn) {
+            model.return({ sn: _sn }, function () { });
+        });
+        return true;
+    }
+    return false;
+}
+
 var model = {
     reserve: function (_data, _callback) {
         seat.isReserve([_data.sn], function (_isReserve) { // 이미 좌석을 예약중인지
@@ -50,9 +60,11 @@ var model = {
             seat.getAllSeat(function (_results) {
                 for (var i = 0; i < _results.length; i++) {
                     var seat_data = _results[i]
+                    if (check_forcedReturn(seat_data))
+                        continue;
                     var data = {}
                     data.use = (seat_data.avg_use_sheet == null) ? 0 : Math.floor(seat_data.avg_use_sheet * 100)
-                    data.sound = (seat_data.avg_sound == null) ? 0 : Math.floor(seat_data.avg_sound * 100)/100
+                    data.sound = (seat_data.avg_sound == null) ? 0 : Math.floor(seat_data.avg_sound * 100) / 100
                     device.publish(config.publish.DEVICE_DATA_TOPIC + seat_data.sheet_idx, data, function () { });
                 }
             });
